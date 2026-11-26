@@ -43,6 +43,10 @@ def main() -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     # No trailing newline: the gate counts every character.
     out.write_text(entry_text(), encoding="utf-8")
+    # Round-trip check: what the sandbox grades must be byte-identical
+    # to the validated entry, every run.
+    if out.read_text(encoding="utf-8") != ENTRY:
+        raise ValueError("written entry does not match the validated entry")
 
 
 if __name__ == "__main__":
