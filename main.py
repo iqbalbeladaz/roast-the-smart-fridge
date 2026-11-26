@@ -30,6 +30,11 @@ def entry_text() -> str:
         raise ValueError(f"entry is {len(ENTRY)} chars, must be 1-{MAX_CHARS}")
     if ENTRY.strip() != ENTRY or "\n" in ENTRY or not ENTRY.strip():
         raise ValueError("entry must be one clean, non-empty line")
+    # One sentence only: the judge's brief wants no second sentence, so
+    # exactly one sentence-ending mark, and it must close the line.
+    endings = sum(ENTRY.count(c) for c in ".!?")
+    if endings != 1 or ENTRY[-1] not in ".!?":
+        raise ValueError("entry must be exactly one sentence")
     return ENTRY
 
 
